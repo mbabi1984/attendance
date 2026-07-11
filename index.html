@@ -1,43 +1,107 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الحضور الجغرافي</title>
-    <style>
-        :root{ --green:#28a745; --green-d:#1e7e34; --red:#d64545; --amber:#c77d0a; }
-        *{ box-sizing:border-box; }
-        body{ font-family:Arial,"Segoe UI",sans-serif; text-align:center; padding:40px 16px; background:#f4f4f9; color:#333; margin:0; }
-        .card{ background:#fff; padding:30px 24px; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,.08); display:inline-block; width:100%; max-width:400px; }
-        h2{ margin:0 0 6px; font-size:22px; }
-        .sub{ color:#666; font-size:14px; margin:0 0 22px; }
-        input[type="text"]{ padding:13px; width:100%; margin-bottom:16px; border:1px solid #ccc; border-radius:8px; font-size:16px; text-align:center; }
-        input[type="text"]:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(40,167,69,.15); }
-        button{ background:var(--green); color:#fff; border:none; padding:14px; font-size:16px; border-radius:8px; cursor:pointer; width:100%; font-weight:bold; transition:background .15s; }
-        button:hover:not(:disabled){ background:var(--green-d); }
-        button:disabled{ background:#c9ccd1; cursor:not-allowed; }
-        #status{ margin:20px 0 0; font-weight:bold; font-size:15px; line-height:1.7; white-space:pre-line; min-height:24px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الحضور — ورشة أريكا للنجارة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wood-dark:#3B2A1A; --wood:#5A3F26; --brass:#B5793A; --brass-d:#9A6430;
+    --cream:#F1EBE1; --card:#FFFFFF; --ink:#2E2620;
+    --muted-txt:#7A6E60; --green:#1E7B34; --green-bg:#E4F5E9;
+    --red:#B23A3A; --red-bg:#FBE7E7; --amber:#B07A16; --line:#E7DFD3;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    font-family:'Cairo',Arial,sans-serif; margin:0; min-height:100vh;
+    display:flex; align-items:center; justify-content:center; padding:24px 16px;
+    color:var(--ink);
+    background:linear-gradient(160deg,#EFE8DD 0%,#E7DDCD 100%);
+  }
+  .card{
+    background:var(--card); width:100%; max-width:430px; border-radius:18px;
+    box-shadow:0 14px 40px rgba(59,42,26,.16); overflow:hidden;
+    border:1px solid var(--line);
+  }
+  /* ---- ترويسة الهوية ---- */
+  .brand{
+    background:radial-gradient(120% 140% at 80% -20%, #4A3420 0%, var(--wood-dark) 60%);
+    color:#F3EADF; padding:26px 24px 22px; text-align:center; position:relative;
+  }
+  .brand::after{ content:""; display:block; height:3px; width:64px; margin:16px auto 0;
+    background:linear-gradient(90deg,transparent,var(--brass),transparent); border-radius:2px; }
+  .emblem{ width:56px; height:56px; margin:0 auto 12px; display:block; }
+  .org{ font-size:23px; font-weight:800; letter-spacing:.2px; margin:0; }
+  .org .thin{ font-weight:600; color:#E4C9A6; }
+  .tagline{ font-size:13.5px; font-weight:600; color:#D9BE9C; margin:6px 0 0; }
+  /* ---- المحتوى ---- */
+  .body{ padding:24px 24px 20px; }
+  .hint{ color:var(--muted-txt); font-size:13.5px; text-align:center; margin:0 0 18px; line-height:1.7; }
+  label{ display:block; font-size:13px; font-weight:700; margin:0 2px 7px; color:var(--wood); }
+  input[type="text"]{
+    width:100%; padding:13px 14px; border:1.5px solid var(--line); border-radius:10px;
+    font-family:inherit; font-size:16px; text-align:center; color:var(--ink); background:#FCFAF7;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  input[type="text"]:focus{ outline:none; border-color:var(--brass); box-shadow:0 0 0 3px rgba(181,121,58,.18); }
+  button{
+    width:100%; margin-top:16px; padding:14px; border:none; border-radius:10px; cursor:pointer;
+    font-family:inherit; font-size:16.5px; font-weight:700; color:#fff;
+    background:linear-gradient(180deg,var(--brass),var(--brass-d));
+    box-shadow:0 4px 12px rgba(154,100,48,.28); transition:filter .15s, transform .05s;
+  }
+  button:hover:not(:disabled){ filter:brightness(1.05); }
+  button:active:not(:disabled){ transform:translateY(1px); }
+  button:disabled{ background:#CFC6BA; box-shadow:none; cursor:not-allowed; }
+  #status{ margin:18px 2px 2px; font-weight:700; font-size:14.5px; line-height:1.75;
+    white-space:pre-line; min-height:22px; text-align:center; }
+  .foot{ border-top:1px solid var(--line); padding:12px; text-align:center;
+    font-size:11.5px; color:#A2988A; background:#FBF9F5; }
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } }
+</style>
 </head>
 <body>
 
 <div class="card">
-    <h2>تسجيل الحضور والانصراف</h2>
-    <p class="sub">يجب التواجد داخل موقع العمل لتفعيل التسجيل</p>
+  <div class="brand">
+    <svg class="emblem" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="32" cy="32" r="30" fill="#4A3420" stroke="#B5793A" stroke-width="1.5"/>
+      <ellipse cx="29" cy="34" rx="21" ry="22" stroke="#C89A5E" stroke-width="1.4" opacity=".85"/>
+      <ellipse cx="27" cy="35" rx="14" ry="15.5" stroke="#C89A5E" stroke-width="1.4" opacity=".7"/>
+      <ellipse cx="25.5" cy="36" rx="7.5" ry="9" stroke="#D9B57E" stroke-width="1.4" opacity=".8"/>
+      <circle cx="24.5" cy="37" r="2.4" fill="#E4C9A6"/>
+    </svg>
+    <h1 class="org">ورشة أريكا <span class="thin">للنجارة</span></h1>
+    <p class="tagline">نظام تسجيل الحضور والانصراف</p>
+  </div>
 
-    <input type="text" id="empName" placeholder="أدخل اسم الموظف" autocomplete="name">
-    <button id="submitBtn">تسجيل الحضور الآن</button>
+  <div class="body">
+    <p class="hint">يُرجى التواجد داخل موقع العمل لتسجيل حضورك عبر تحديد الموقع الجغرافي.</p>
+    <label for="empName">اسم الموظف</label>
+    <input type="text" id="empName" placeholder="الاسم الكامل" autocomplete="name">
+    <button id="submitBtn">تسجيل الحضور</button>
     <p id="status"></p>
+  </div>
+
+  <div class="foot">ورشة أريكا للنجارة — نظام الحضور الإلكتروني</div>
 </div>
 
 <script>
 /* ============ الإعدادات — عدّل هنا فقط ============ */
-const GAS_URL = "https://script.google.com/macros/s/AKfycbz-nMm2abO9w1DqZX9uUaXy2evZEaS27a-2VvH1jnSQAKTLZw_qsmcBmfq-ciIS4O3z/exec"; // الرابط المنتهي بـ /exec
-const WORK_LAT = 24.530787226358036;   // خط عرض موقع العمل
-const WORK_LNG = 46.70985721534361;   // خط طول موقع العمل
-const ALLOWED_RADIUS_KM = 0.1;  // نطاق القبول (0.1 كم = 100 متر)
-const MAX_ACCURACY_M    = 100;  // أسوأ دقة GPS مقبولة (متر) — يمنع القراءات غير الموثوقة
-const LOG_OUT_OF_RANGE  = true; // سجّل المحاولات خارج النطاق أيضاً (مفيد للتدقيق)
+const GAS_URL = "https://script.google.com/macros/s/AKfycbz-nMm2abO9w1DqZX9uUaXy2evZEaS27a-2VvH1jnSQAKTLZw_qsmcBmfq-ciIS4O3z/exec";
+
+// مواقع العمل المسموح التسجيل منها — أضف أو احذف مواقع بحرّية
+const WORK_LOCATIONS = [
+  { lat: 24.530787226358036, lng: 46.70985721534361 },
+  { lat: 24.703975747650606, lng: 46.67092576308695 }
+];
+
+const ALLOWED_RADIUS_KM = 0.1;  // نطاق القبول لكل موقع (0.1 كم = 100 متر)
+const MAX_ACCURACY_M    = 100;  // أسوأ دقة GPS مقبولة (متر)
+const LOG_OUT_OF_RANGE  = true; // سجّل المحاولات خارج النطاق أيضاً
 /* ================================================ */
 
 const $ = id => document.getElementById(id);
@@ -46,89 +110,97 @@ $('submitBtn').addEventListener('click', checkLocationAndSubmit);
 function setStatus(msg, color){ const s=$('status'); s.innerText=msg; s.style.color=color; }
 
 function getPosition(){
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject,
-            { enableHighAccuracy:true, timeout:10000, maximumAge:0 });
-    });
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject,
+      { enableHighAccuracy:true, timeout:10000, maximumAge:0 });
+  });
 }
 
 async function saveRecord(payload){
-    // نوع "text/plain" يجعل الطلب "بسيطاً" فيتفادى حظر الـ CORS مع Apps Script
-    const res = await fetch(GAS_URL, {
-        method:'POST',
-        headers:{ 'Content-Type':'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload),
-        redirect:'follow'
-    });
-    return res.json();
+  const res = await fetch(GAS_URL, {
+    method:'POST',
+    headers:{ 'Content-Type':'text/plain;charset=utf-8' }, // نوع بسيط لتفادي حظر CORS
+    body: JSON.stringify(payload),
+    redirect:'follow'
+  });
+  return res.json();
+}
+
+// أقرب مسافة (بالمتر) بين الموظف وأقرب موقع عمل
+function nearestDistanceM(lat, lng){
+  let best = Infinity;
+  for (const loc of WORK_LOCATIONS){
+    const d = getDistance(lat, lng, loc.lat, loc.lng) * 1000;
+    if (d < best) best = d;
+  }
+  return Math.round(best);
 }
 
 async function checkLocationAndSubmit(){
-    const name = $('empName').value.trim();
-    const btn  = $('submitBtn');
+  const name = $('empName').value.trim();
+  const btn  = $('submitBtn');
 
-    if(!name){ setStatus("❌ يرجى إدخال اسم الموظف أولاً.", "var(--red)"); return; }
-    if(!navigator.geolocation){ setStatus("❌ متصفحك لا يدعم تحديد الموقع الجغرافي.", "var(--red)"); return; }
-    if(GAS_URL.indexOf("http") !== 0){ setStatus("⚠️ لم يتم ضبط رابط الحفظ (GAS_URL) بعد.", "var(--amber)"); return; }
+  if(!name){ setStatus("يُرجى إدخال اسم الموظف أولاً.", "var(--red)"); return; }
+  if(!navigator.geolocation){ setStatus("متصفحك لا يدعم تحديد الموقع الجغرافي.", "var(--red)"); return; }
+  if(GAS_URL.indexOf("http") !== 0){ setStatus("لم يتم ضبط رابط الحفظ بعد.", "var(--amber)"); return; }
 
-    btn.disabled = true;
-    setStatus("⏳ جاري تحديد موقعك والتحقق من الـ GPS...", "var(--amber)");
+  btn.disabled = true;
+  setStatus("جارٍ تحديد موقعك والتحقق من الـ GPS…", "var(--amber)");
 
-    try{
-        const pos = await getPosition();
-        const { latitude:lat, longitude:lng, accuracy } = pos.coords;
+  try{
+    const pos = await getPosition();
+    const { latitude:lat, longitude:lng, accuracy } = pos.coords;
 
-        // رفض القراءات ضعيفة الدقة (مثلاً داخل مبنى) لأنها غير موثوقة
-        if(accuracy > MAX_ACCURACY_M){
-            setStatus(`⚠️ دقة الـ GPS ضعيفة (±${Math.round(accuracy)} م).\nجرّب في مكان مفتوح وأعد المحاولة.`, "var(--amber)");
-            btn.disabled = false; return;
-        }
-
-        const distanceM = Math.round(getDistance(lat, lng, WORK_LAT, WORK_LNG) * 1000);
-        const inRange = distanceM <= ALLOWED_RADIUS_KM * 1000;
-
-        if(!inRange && !LOG_OUT_OF_RANGE){
-            setStatus(`❌ نعتذر، أنت خارج النطاق المسموح.\nتبعد حوالي ${distanceM} متر عن موقع العمل.`, "var(--red)");
-            btn.disabled = false; return;
-        }
-
-        setStatus("⏳ جاري حفظ التسجيل...", "var(--amber)");
-        const payload = {
-            name,
-            status: inRange ? "حاضر (داخل النطاق)" : "محاولة خارج النطاق",
-            lat, lng, accuracy: Math.round(accuracy), distance: distanceM
-        };
-
-        let saved = false;
-        try{ const r = await saveRecord(payload); saved = !!(r && r.result === "success"); }
-        catch(e){ saved = false; }
-
-        if(inRange){
-            setStatus(saved
-                ? `✅ تم تسجيل حضورك بنجاح.\n${name} — داخل موقع العمل.`
-                : `✅ تم التحقق من موقعك، لكن تعذّر حفظ التسجيل.\nتأكد من الاتصال بالإنترنت وأعد المحاولة.`,
-                saved ? "var(--green)" : "var(--amber)");
-        } else {
-            setStatus(`❌ أنت خارج النطاق المسموح (تبعد ${distanceM} م).\nتم تسجيل المحاولة.`, "var(--red)");
-        }
-    }catch(err){
-        const msg = (err && err.code === 1)
-            ? "❌ يجب السماح للمتصفح بالوصول إلى الموقع (GPS) لتسجيل الحضور."
-            : "❌ تعذّر تحديد موقعك. تأكد من تفعيل الـ GPS وأعد المحاولة.";
-        setStatus(msg, "var(--red)");
-    }finally{
-        btn.disabled = false;
+    if(accuracy > MAX_ACCURACY_M){
+      setStatus("دقة الـ GPS ضعيفة (±" + Math.round(accuracy) + " م).\nجرّب في مكان مفتوح وأعد المحاولة.", "var(--amber)");
+      btn.disabled = false; return;
     }
+
+    const distanceM = nearestDistanceM(lat, lng);
+    const inRange = distanceM <= ALLOWED_RADIUS_KM * 1000;
+
+    if(!inRange && !LOG_OUT_OF_RANGE){
+      setStatus("نعتذر، أنت خارج النطاق المسموح.\nتبعد حوالي " + distanceM + " متر عن أقرب موقع عمل.", "var(--red)");
+      btn.disabled = false; return;
+    }
+
+    setStatus("جارٍ حفظ التسجيل…", "var(--amber)");
+    const payload = {
+      name,
+      status: inRange ? "حاضر (داخل النطاق)" : "محاولة خارج النطاق",
+      lat, lng, accuracy: Math.round(accuracy), distance: distanceM
+    };
+
+    let saved = false;
+    try{ const r = await saveRecord(payload); saved = !!(r && r.result === "success"); }
+    catch(e){ saved = false; }
+
+    if(inRange){
+      setStatus(saved
+        ? "✅ تم تسجيل حضورك بنجاح.\n" + name + " — داخل موقع العمل."
+        : "✅ تم التحقق من موقعك، لكن تعذّر حفظ التسجيل.\nتأكد من الاتصال بالإنترنت وأعد المحاولة.",
+        saved ? "var(--green)" : "var(--amber)");
+    } else {
+      setStatus("❌ أنت خارج النطاق المسموح (تبعد " + distanceM + " م).\nتم تسجيل المحاولة.", "var(--red)");
+    }
+  }catch(err){
+    const msg = (err && err.code === 1)
+      ? "يجب السماح للمتصفح بالوصول إلى الموقع (GPS) لتسجيل الحضور."
+      : "تعذّر تحديد موقعك. تأكد من تفعيل الـ GPS وأعد المحاولة.";
+    setStatus("❌ " + msg, "var(--red)");
+  }finally{
+    btn.disabled = false;
+  }
 }
 
-// معادلة هافيرسين "Haversine" — المسافة بين نقطتين على الكرة الأرضية بالكيلومتر
+// معادلة هافيرسين — المسافة بين نقطتين على الكرة الأرضية بالكيلومتر
 function getDistance(lat1, lon1, lat2, lon2){
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2)**2 +
-              Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 </script>
 
